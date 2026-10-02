@@ -1,0 +1,17 @@
+# ===================== FORTIGATE-1 (lado usuarios) =====================
+# Arranque mínimo por consola para poder entrar a la GUI.
+# TODO LO DEMÁS (WAN, ruta por defecto, DHCP, NAT, VPN, rutas y políticas) se configura POR GUI.
+#
+# Nota: el switch SW-1 (Gi0/0) quedó conectado al port2 del FortiGate-1,
+# por eso la interfaz VLAN10 se crea sobre port2.
+config system interface
+ edit "VLAN10"
+  set vdom "root"
+  set type vlan
+  set interface "port2"
+  set vlanid 10
+  set ip 10.7.1.1 255.255.255.128
+  set allowaccess ping https http ssh
+  set role lan
+ next
+end

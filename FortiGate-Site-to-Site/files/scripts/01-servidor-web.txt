@@ -1,0 +1,27 @@
+# ===================== SERVIDOR WEB (contenedor Docker en GNS3) =====================
+# Servidor: 10.7.2.2/28 | Gateway: 10.7.2.1 (FortiGate-2 port2)
+
+# --- 1) Configuración persistente ---
+# GNS3: clic derecho en el nodo > Configure > Network configuration > Edit
+# (el bloque se pega SIN comentarios "#"; se guarda con Ctrl+S, Apply, OK y se reinicia el nodo)
+auto eth0
+iface eth0 inet static
+ address 10.7.2.2
+ netmask 255.255.255.240
+ gateway 10.7.2.1
+
+# --- 2) Aplicación manual desde la consola del servidor (no persiste al reiniciar) ---
+ip addr show eth0
+ip addr flush dev eth0
+ip addr add 10.7.2.2/28 dev eth0
+ip route del default 2>/dev/null
+ip route add default via 10.7.2.1
+ip addr show eth0
+ping -c 3 10.7.2.1
+
+# --- 3) Página de identificación del servidor ---
+echo "<h1>Servidor Web del laboratorio - 10.7.2.2</h1>" > /var/www/html/index.html
+
+# --- 4) Verificación del servicio web (Apache2 con HTTP 80 y HTTPS 443) ---
+ip route
+netstat -tln

@@ -1,0 +1,50 @@
+! ===================== SWITCH SW-1 (Cisco IOSvL2) =====================
+! Gi0/0 = trunk hacia FortiGate-1 (port2) | Gi0/1 = acceso VLAN 10 hacia la PC de usuarios
+
+! --- 1) Configuración base y acceso seguro por SSH ---
+enable
+configure terminal
+no ip domain-lookup
+hostname SW-1
+banner motd #Lisbeth Gómez 2025-0701#
+username Admin privilege 15 secret cisco
+enable secret cisco
+line console 0
+login local
+exit
+ip domain-name red.local
+crypto key generate rsa
+2048
+ip ssh version 2
+line vty 0 4
+login local
+transport input ssh
+exit
+end
+write memory
+
+! --- 2) VLAN 10, trunk hacia el FortiGate y puerto de acceso hacia la PC ---
+configure terminal
+vlan 10
+ name USUARIOS
+exit
+interface g0/0
+ description HACIA-FORTIGATE-1-PORT2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ no shutdown
+interface g0/1
+ description HACIA-PC-WINDOWS
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+end
+write memory
+
+! --- 3) Verificación ---
+show vlan brief
+show interfaces status
+show interfaces trunk
+show mac address-table
+show ip ssh

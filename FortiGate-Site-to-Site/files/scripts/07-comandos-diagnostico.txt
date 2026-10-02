@@ -1,0 +1,31 @@
+# ===================== DIAGNÓSTICO EN LOS FORTIGATE (consola) =====================
+
+# --- Interfaces y ARP ---
+get system interface physical
+show system interface VLAN10
+diagnose ip address list
+get system arp
+
+# --- Captura de tráfico ---
+diagnose sniffer packet any "arp or icmp" 4
+diagnose sniffer packet port2 "arp or icmp" 4
+
+# --- Conectividad ---
+execute ping 203.7.1.1
+execute ping 198.7.1.1
+execute ping 198.7.1.2
+execute ping 203.7.1.2
+execute ping 10.7.2.2
+
+# --- Estado de la VPN ---
+diagnose vpn ike gateway list
+diagnose vpn tunnel list
+
+# --- Disco y apagado seguro ---
+execute disk list
+execute disk scan <ref_particion>
+execute shutdown
+
+# ===================== DIAGNÓSTICO EN WINDOWS =====================
+curl.exe -k -I https://10.7.1.1
+Test-NetConnection 10.7.1.1 -Port 443

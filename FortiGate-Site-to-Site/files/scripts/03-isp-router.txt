@@ -1,0 +1,38 @@
+! ===================== ROUTER ISP (Cisco IOS) =====================
+! f0/0 -> FortiGate-1 (port1) | f0/1 -> FortiGate-2 (port1)
+
+! --- 1) Configuración base y acceso seguro por SSH ---
+enable
+configure terminal
+no ip domain-lookup
+hostname ISP
+banner motd #Lisbeth Gómez 2025-0701#
+username Admin privilege 15 secret cisco
+enable secret cisco
+line console 0
+login local
+exit
+ip domain-name red.local
+crypto key generate rsa
+2048
+ip ssh version 2
+line vty 0 4
+login local
+transport input ssh
+exit
+end
+write memory
+
+! --- 2) Interfaces con IPs públicas hacia cada FortiGate (una red /30 por enlace) ---
+configure terminal
+interface f0/0
+ ip address 203.7.1.1 255.255.255.252
+ no shutdown
+interface f0/1
+ ip address 198.7.1.1 255.255.255.252
+ no shutdown
+end
+write memory
+
+! --- 3) Verificación ---
+show ip interface brief

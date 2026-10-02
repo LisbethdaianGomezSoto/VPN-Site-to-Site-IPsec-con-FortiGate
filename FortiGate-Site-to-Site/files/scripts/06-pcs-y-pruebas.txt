@@ -1,0 +1,23 @@
+# ===================== PC 2 (administración, Windows) =====================
+# IP fija para entrar a la GUI del FortiGate-2 (http://10.7.99.1)
+#   IP:       10.7.99.10
+#   Máscara:  255.255.255.0
+#   Gateway:  10.7.99.1
+
+# ===================== PC DE USUARIOS (Windows, DHCP) =====================
+# Adaptador en "Obtener una dirección IP automáticamente" (PowerShell como administrador)
+ipconfig /release
+ipconfig /renew
+ipconfig
+
+# ===================== COMANDOS DE CONFIRMACIÓN - PARTE 1 (túnel activo) =====================
+ping 10.7.2.2
+tracert 10.7.2.2
+https://10.7.2.2        # (en el navegador; se acepta el certificado autofirmado)
+
+# ===================== COMANDOS DE CONFIRMACIÓN - PARTE 2 (túnel deshabilitado) =====================
+ping -t 10.7.2.2
+tracert 10.7.2.2
+# Prueba de control: la red base sigue viva aunque el túnel esté apagado
+ping 10.7.1.1
+ping 203.7.1.1

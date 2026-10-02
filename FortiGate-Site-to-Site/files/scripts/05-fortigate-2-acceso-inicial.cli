@@ -1,0 +1,10 @@
+# ===================== FORTIGATE-2 (lado servidor) =====================
+# Arranque mínimo por consola: red de administración en port3 (PC 2).
+# TODO LO DEMÁS (WAN, LAN del servidor, ruta por defecto, NAT, VPN, rutas y políticas) se configura POR GUI.
+config system interface
+ edit "port3"
+  set mode static
+  set ip 10.7.99.1 255.255.255.0
+  set allowaccess ping https http ssh
+ next
+end
