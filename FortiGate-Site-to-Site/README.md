@@ -99,8 +99,9 @@ flowchart TB
 
 **Topología en GNS3**
 
-![Topología en GNS3](<img width="1087" height="518" alt="Captura de pantalla 2026-10-02 004846" src="https://github.com/user-attachments/assets/0988379a-5cf3-4982-9161-510bb48935e8" />
-)
+<img width="1087" height="518" alt="Captura de pantalla 2026-10-02 004846" src="https://github.com/user-attachments/assets/eadb367e-52c0-4864-9cd4-bb77a8ccebcd" />
+
+  
 
 **Flujo del tráfico entre el usuario y el servidor**
 
