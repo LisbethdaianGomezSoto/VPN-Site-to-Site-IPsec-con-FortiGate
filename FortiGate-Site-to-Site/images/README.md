@@ -92,14 +92,6 @@ Todas las imágenes del README viven en esta carpeta, ordenadas por sección.
 | 📸 | `13-ping-recuperado.png` | PC de usuarios | `ping -t 10.7.2.2` volviendo a responder |
 | 📸 | `14-tunel-diag-reactivado.png` | Consola del FG-1 | `diagnose vpn tunnel list` con `accept_traffic=1` y `sa=1` (**recortada, sin claves**) |
 
-## 📂 `08-troubleshooting/`
-
-| Estado | Archivo | Dónde se captura | Qué debe verse |
-|---|---|---|---|
-| ✅ | [`01-https-connection-refused.png`](01-https-connection-refused.png) | Navegador | Error de conexión rechazada al abrir la GUI por HTTPS |
-| ✅ | [`02-environment-variables-incorrecto.png`](02-environment-variables-incorrecto.png) | GNS3 | Bloque de red pegado en *Environment variables* |
-| ✅ | [`03-network-config-con-comentarios.png`](03-network-config-con-comentarios.png) | GNS3 | Editor de red con las líneas comentadas |
-| ✅ | [`04-project-closing.png`](04-project-closing.png) | GNS3 | Mensaje "Project is closing" |
 
 ## 📂 `09-intento-asistente/`
 
