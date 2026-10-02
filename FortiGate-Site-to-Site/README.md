@@ -10,7 +10,7 @@
 
 ## 🎬 Video demostrativo
 
-> **[▶ Ver el video de la demostración](REEMPLAZAR_CON_URL_DEL_VIDEO)**
+> **[▶ Ver el video de la demostración](https://youtu.be/ZZCAaEpDaJs)**
 >
 > El video muestra: DHCP en la VLAN 10, comunicación entre el usuario y el servidor con el túnel activo (ping, traceroute y HTTPS) y la pérdida total de comunicación al deshabilitar el túnel.
 
@@ -26,7 +26,6 @@
 - [🔧 Configuración](#-configuración)
 - [🔐 VPN Site-to-Site](#-vpn-site-to-site)
 - [🧪 Pruebas y validación](#-pruebas-y-validación)
-- [🐛 Problemas y soluciones](#-problemas-y-soluciones)
 - [📁 Estructura del repositorio](#-estructura-del-repositorio)
 - [📝 Notas y buenas prácticas](#-notas-y-buenas-prácticas)
 - [👤 Autor](#-autor)
@@ -100,7 +99,8 @@ flowchart TB
 
 **Topología en GNS3**
 
-![Topología en GNS3](images/01-topologia/02-topologia-gns3.png)
+![Topología en GNS3](<img width="1087" height="518" alt="Captura de pantalla 2026-10-02 004846" src="https://github.com/user-attachments/assets/0988379a-5cf3-4982-9161-510bb48935e8" />
+)
 
 **Flujo del tráfico entre el usuario y el servidor**
 
@@ -582,27 +582,6 @@ Con el túnel deshabilitado desaparece la ruta hacia `10.7.2.0/28`, la ruta *bla
 ![Diagnóstico con el túnel reactivado](images/07-pruebas/14-tunel-diag-reactivado.png)
 
 ---
-
-## 🐛 Problemas y soluciones
-
-| Problema | Causa | Solución |
-|---|---|---|
-| Redes solapadas en el diseño inicial (`10.7.1.0/25` y `10.7.1.0/28`) | El /28 quedaba dentro del /25 y la VPN no podría distinguir destinos | La red del servidor pasó a `10.7.2.0/28` |
-| `ping` al gateway daba "host de destino inaccesible" | La interfaz VLAN10 no existía en el FortiGate-1 | Se creó por consola con el script de acceso inicial |
-| Sin ping tras reiniciar los nodos | El switch estaba en el `port2` y la VLAN10 estaba creada sobre `port3` (down) | Se movió la VLAN10 al `port2` y se verificó con el *sniffer* |
-| GUI por HTTPS: `Connection was reset` / `ERR_CONNECTION_REFUSED` | Servicio HTTPS con fallo tras un apagado brusco de los nodos ("File System Check Recommended") | Escaneo de disco con `execute disk scan`; se usó HTTP como acceso alternativo |
-| `curl -I` devolvía `405 Method Not Allowed` | `curl -I` envía HEAD, que el FortiGate no acepta | No era un error: el navegador (GET) sí abre la GUI |
-| `net 162.159.36.2 unreachable` en el sniffer | Windows salía a Internet y el FortiGate aún no tenía ruta por defecto | Se configuró WAN y ruta por defecto |
-| El servidor no respondía al gateway | El contenedor arrancó con una IP antigua (`10.7.1.130`): la configuración de red guardada en GNS3 no era la nueva | Se aplicó la IP con comandos y se guardó bien la configuración del nodo |
-| La IP no se aplicaba en el servidor | El bloque de red se pegó en *Environment variables* o con las líneas comentadas (`#`) | Se pegó en *Network configuration > Edit*, sin `#` |
-| El cifrado negociado era débil (`des-md5`) con el asistente | El asistente usa propuestas por defecto | Se rehízo la VPN como túnel Custom: IKEv2, SHA256, DH 14 y PFS |
-| Solo aparecía DES en el desplegable de cifrado | Limitación del FortiGate-VM de evaluación | Se eligió la mejor combinación disponible y se documentó la limitación |
-| GNS3: "Project is closing" | El proyecto se estaba cerrando y no aceptaba acciones | Esperar unos segundos y reabrir el proyecto |
-
-![HTTPS rechazado en la GUI](images/08-troubleshooting/01-https-connection-refused.png)
-![Variables de entorno: configuración incorrecta](images/08-troubleshooting/02-environment-variables-incorrecto.png)
-![Network configuration con líneas comentadas](images/08-troubleshooting/03-network-config-con-comentarios.png)
-![GNS3: Project is closing](images/08-troubleshooting/04-project-closing.png)
 
 ### Herramientas de diagnóstico utilizadas
 
